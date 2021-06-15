@@ -1,0 +1,307 @@
+$electric: #eed535;
+$ghost: #7b62a3;
+$fire: #fd7d24;
+$dark: #707070;
+$normal: #a4acaf;
+$steel: #9eb7b8;
+$dragon:#53a4cf;
+$dragon-g: linear-gradient(180deg, #53a4cf 50%, #f16e57 50%);
+$fairy: #fdb9e9;
+$fighting: #d56723;
+$grass: #9bcc50;
+$flying:#3dc7ef;
+$flying-g: linear-gradient(180deg, #3dc7ef 50%, #bdb9b8 50%);
+$poison: #b97fc9;
+$ground:#f7de3f;
+$ground-g: linear-gradient(180deg, #f7de3f 50%, #ab9842 50%);
+$psychic: #f366b9;
+$water: #4592c4;
+$bug: #729f3f; 
+$rock: #a38c21;
+$ice: #51c4e7;
+
+$pk-red: #E3350D;
+$helper: #404040;
+
+$shadow-lg: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$shadow-md: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.number-name {
+    position: relative;
+    top: 0;
+}
+.pk-number {
+    background: $pk-red;
+    color: #fff;
+    border-radius: 50%;
+    color: #fff;
+    height: 1.5em;
+    width: 1.5em;
+    line-height: 1.4em;
+    padding: 5px;
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    font-size: 1em !important;
+    margin: 0;
+}
+.pokemon-basic > .type {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 0 10px;
+}
+.basic-info > .type {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    max-width: 300px;
+    margin: .5em 0;
+}
+.pokemon-details > .type {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 10px;
+}
+.type > p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #fff;
+    margin: 0 .25rem;
+    width: 45%;
+    border-radius: .5rem;
+    text-align:center;
+    vertical-align: baseline;
+    padding: 0 0 3px;
+}
+
+.electric {
+    background: $electric;
+}
+.ghost {
+    background: $ghost;
+}
+.fire {
+    background: $fire;
+}
+.dark {
+    background: $dark;
+}
+.normal {
+    background: $normal;
+}
+.steel {
+    background: $steel;
+}
+.dragon {
+    background: $dragon;
+    background: $dragon-g;
+}
+.fairy {
+    background: $fairy;
+}
+.fighting {
+    background: $fighting;
+}
+.grass {
+    background: $grass;
+}
+.flying {
+    background: $flying;
+    background: $flying-g;
+}
+.poison {
+    background: $poison;
+}
+.ground {
+    background: $ground;
+    background: $ground-g;
+}
+.psychic {
+    background: $psychic;
+}
+.water {
+    background: $water;
+}
+.bug {
+    background: $bug;
+}
+.rock {
+    background: $rock;
+}
+.ice {
+    background: $ice;
+}
+.pokemon-details {
+    margin: 1em;
+}
+.pokemon-details .detail-box {
+    list-style-type: none;
+    background: #fff;
+    padding: 0 0 1em;
+    border-radius: .5rem;
+    box-shadow: $shadow-md;
+    overflow: hidden;
+    margin: 1em 0;
+}
+.pokemon-details ul li{
+    text-align: left;
+    padding: 0 1rem 0;
+    margin: .5em 0;
+}
+.pokemon-details  .detail-box > p{
+    font-size: 1.5em;
+    background-color: $pk-red;
+    color: #fff;
+    padding: .5em;
+    font-size: 1.5em;
+}
+.name {
+    font-size: 2rem;
+    margin: 0;
+}
+.species {
+    margin: 0;
+}
+.detail-box p > span {
+    font-weight: bold;
+}
+.detail-box > ul.evolution {
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+figure img {
+    height: 100px;
+    width: auto;
+}
+figure.evolution-2 {
+    
+}
+.evolution {
+    position: relative;
+}
+.evolution > .arrow {
+    position: absolute;
+    top: 50%;
+    left: 0;
+}
+.evolution > li.evolution-3a {
+    background-color: $pk-red;
+}
+.evolution > li.evolution-3b {
+    background-color: $pk-red;
+}
+
+
+
+.basic-info {
+    text-align: left;
+}
+.basic-info p > span {
+    font-weight: bold;
+}
+.basic-info > div {
+    margin: .5em 0;
+}
+
+
+.flex-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+.flex-container > div.detail-box {
+    width: 24%;
+}
+.flex-container > div.detail-box.stat {
+    width: 48%;
+}
+@media only screen and (max-width: 800px) {
+    .flex-container > div.detail-box, .flex-container > div.detail-box.stat  { 
+        width: 100% 
+    }
+}
+.stat > ul {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+.stat > ul > li {
+    float: left;
+}
+.stat-bar  {
+    display: flex;
+    flex-direction: column;
+}
+@media only screen and (max-width: 500px) {
+    .stat > ul {
+        columns: 1;
+        -webkit-columns: 1;
+        -moz-columns: 1;
+    }
+    .stat > ul > li {
+        float: none;
+    }
+    progress {
+        width: 100%;
+    }
+}
+.details-image-container {
+    max-width: 500px;
+    margin: 1em 1em 1em auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+.details-image-container > .detail-img {
+    height: 250px;
+    width: auto;
+    filter: drop-shadow(4px 4px 10px #808080);
+} 
+.details-image-container ul {
+    display: flex;
+    margin: 1em 0 0;
+}
+.details-image-container ul li > button {
+    border: none;
+    box-shadow: $shadow-md;
+    border-radius: 1em;
+}
+.abilities > ul li p:nth-child(2) {
+    color: $helper;
+    font-size: 1em;
+    padding: 5px 0;
+    font-size: .9em;
+}
+//image tabs
+.varients-tab {
+    background-color: $pk-red;
+    border-radius: 1em;
+    box-shadow: $shadow-md;
+    
+}
+.varients-tab > li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
