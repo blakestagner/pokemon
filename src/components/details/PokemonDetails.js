@@ -34,7 +34,6 @@ export default function PokemonDetails({P}) {
     useEffect(() => {
         pokemonData(pokemon.species.url)
         .then(res => {
-            console.log(res)
             setNormalForm(res)
         })
         .catch(err => console.log('There was an ERROR: ', err));
@@ -69,28 +68,6 @@ export default function PokemonDetails({P}) {
                     return newId[digitLen]
                 }
 
-
-                const pokemonImage = (pokemon) => {
-                    const gender = () => {
-                        var genderDif = pokemon.has_gender_differences;
-                        var genderRate = pokemon.gender_rate;
-                        var varieties = pokemon.varieties.filter(obj => {
-                            return obj.pokemon.name.includes('-male')
-                        });
-                
-                        if( genderDif && varieties.length === 0) {
-                            return 'md_n_00000000_f_n.png'
-                        } else if((!genderDif && genderRate === 0) || (genderDif && genderRate === 4)) {
-                            return 'mo_n_00000000_f_n.png'
-                        } else if(!genderDif && genderRate === 8 ) {
-                            return 'fo_n_00000000_f_n.png'
-                        } else if(!genderDif && genderRate >= 1) {
-                            return 'mf_n_00000000_f_n.png'
-                        } else return 'uk_n_00000000_f_n.png'
-                    }
-                    return `${path}${pokemonId()}_000_${gender()}`
-                }
-
                 const prettyText = (name) => {
                     let capName = name.charAt(0).toUpperCase() + name.slice(1)
                     let lowerd = name.replace(`${pokemonName}`, '').replaceAll("-", ' ').split(' ');
@@ -101,7 +78,6 @@ export default function PokemonDetails({P}) {
                 }
 
                 const pokemonForms = () => {
-                    console.log(pokemon)
                     var genderDif = pokemon.has_gender_differences;
             
                     var otherVariates = pokemon.varieties.filter(obj => {
@@ -111,13 +87,15 @@ export default function PokemonDetails({P}) {
                         && !obj.pokemon.name.includes('fmale')
                         && !obj.pokemon.name.includes('male')
                         && !obj.pokemon.name.includes('alola')
-                        && !obj.pokemon.name.includes('galar');
+                        && !obj.pokemon.name.includes('galar')
+                        && !obj.pokemon.name.includes('totem');
                         return form;
                     })
-            
+                    var otherForms = pokemon.forms;
                     var regionalVariates = pokemon.varieties.filter(obj => {
-                        let form = obj.pokemon.name.includes('alola') 
-                        || obj.pokemon.name.includes('galar')
+                        let form = !obj.pokemon.name.includes('totem')
+                        && (obj.pokemon.name.includes('alola') 
+                        || obj.pokemon.name.includes('galar')) 
                         return form;
                     })
             
@@ -167,6 +145,14 @@ export default function PokemonDetails({P}) {
                     })
 //Get gender differnece
                     const primaryForms = new Promise ((resolve, reject) => {
+                        const formId = (id) => {
+                            var digitLen = id.toString().length;
+                            var newId = {
+                                1: `00${id}`,
+                                2: `0${id}`,
+                            }
+                            return newId[digitLen]
+                        }
                         var url = pokemon.gender_rate === -1 
                             ? 'uk_n_00000000_f_n.png' 
                                 : pokemon.gender_rate === 8
@@ -191,7 +177,6 @@ export default function PokemonDetails({P}) {
                                     return genderFormDif.length === i+1 ? resolve(normal) : '';
                                 })
                             } else if(genderDif) {
-                                console.log('genderrr')
                                 normal.normal.push(
                                     {
                                         'type': `Male`, 
@@ -206,18 +191,8 @@ export default function PokemonDetails({P}) {
                                 )
                                 return resolve(normal);
                             } 
-                        } else if((otherVariates.length > 0) && (pokemonName !== 'pichu')) {
-
-                            const formId = (id) => {
-                                var digitLen = id.toString().length;
-                                var newId = {
-                                    1: `00${id}`,
-                                    2: `0${id}`,
-                                }
-                                return newId[digitLen]
-                            }
-
-
+                        } else if((otherVariates.length > 0) && (pokemonName !== 'pichu')
+                            && (otherForms.length === 1)) {
                             async function getOtherVariates() {
                                 for (const obj of otherVariates) {
                                     const res = await pokemonDetails(obj.pokemon.url);
@@ -233,6 +208,37 @@ export default function PokemonDetails({P}) {
                               }
                               getOtherVariates()
 
+                        } else if((otherForms.length > 1) && (pokemon.name !=='mothim')) {
+                            async function getOtherVariates() {
+
+                                for (const obj of otherForms) {
+                                    const res = await pokemonDetails(obj.url);
+
+                                    normal.normal.push(
+                                        {
+                                            'type': `${prettyText(obj.name)}`, 
+                                            'url': `${path}${pokemonId()}_${formId(normal.normal.length)}_${url}`,
+                                            'details': {...res, ...pokemon }
+                                        }
+                                    )
+                                }
+                                resolve(normal)
+                              }
+                              getOtherVariates()
+                        } else if (pokemon.name === 'mothim') {
+                            async function getOtherVariates() {
+                                
+                                    const res = await pokemonDetails(otherForms[0].url);
+                                    normal.normal.push(
+                                        {
+                                            'type': `${pokemon.name}`, 
+                                            'url': `${path}${pokemonId()}_${formId(normal.normal.length)}_${url}`,
+                                            'details': {...res, ...pokemon }
+                                        }
+                                    )
+                                resolve(normal)
+                              }
+                              getOtherVariates()
                         } else reject()
                     })
 //Get mega evolution Info
@@ -240,14 +246,28 @@ export default function PokemonDetails({P}) {
                         if(mega.length > 0 ) {
                             let url = pokemon.gender_rate === -1 
                             ? 'uk_n_00000000_f_n.png' : 'mf_n_00000000_f_n.png';
-        
-                            if(mega.length === 1 ) {
+                            if((mega.length === 1) && (pokemonName !== 'slowbro')) {
                                 pokemonDetails(mega[0].pokemon.url)
                                 .then(res => {
                                     megas.mega.push(
                                         {
                                             'type': 'Mega', 
                                             'url': `${path}${pokemonId()}_001_${url}`,
+                                            'details': res
+                                        }
+                                    )
+                                })
+                                .then(() => {
+                                    resolve(megas)
+                                })
+                                .catch(err => console.log(err))
+                            } else if(pokemonName === 'slowbro') {
+                                pokemonDetails(mega[0].pokemon.url)
+                                .then(res => {
+                                    megas.mega.push(
+                                        {
+                                            'type': 'Mega', 
+                                            'url': `${path}${pokemonId()}_002_${url}`,
                                             'details': res
                                         }
                                     )
@@ -331,12 +351,10 @@ export default function PokemonDetails({P}) {
     }, [allForms])
 
     useEffect(() => {
-        console.log(pokemonForms)
         pokemonForms && switchForm(0, 'normal', 0)
     }, [pokemonForms])
 
     useEffect(() => {
-        console.log(formDetails)
         formDetails && setLoading(false)
     }, [formDetails])
 
@@ -358,7 +376,7 @@ export default function PokemonDetails({P}) {
                 <p id="species"><span>Species: </span>{genera(pokemon.genera)}</p>
                 <p id="weight"><span>Weight: </span>{weightHeight(pokemon.weight)} kg</p>
                 <p id="height"><span>Height: </span>{weightHeight(pokemon.height)} m</p>
-                <Type types={pokemon.types}/>
+                <Type types={formDetails.details.types}/>
             </div>
             <div className="flex-container">
                 <Stats />

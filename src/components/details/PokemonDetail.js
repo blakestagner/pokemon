@@ -274,8 +274,8 @@ export default function PokemonDetails({P}) {
                         if(mega.length > 0 ) {
                             let url = pokemon.gender_rate === -1 
                             ? 'uk_n_00000000_f_n.png' : 'mf_n_00000000_f_n.png';
-        
-                            if(mega.length === 1 ) {
+                            console.log(pokemon.name)
+                            if((mega.length === 1) && (pokemonName !== 'slowbro') ) {
                                 pokemonDetails(mega[0].pokemon.url)
                                 .then(res => {
                                     megas.mega.push(
