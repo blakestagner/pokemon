@@ -52,7 +52,7 @@ export default function Abilities() {
                     pokemonForm.details.abilities.map( async (obj, i) => {
                         var result = await abilityFetch(obj.ability.url)
                         abilityArray.push(result)
-                        return i +1 === pokemonForm.details.abilities.length 
+                        return abilityArray.length === pokemonForm.details.abilities.length 
                             ? resolve(abilityArray) : ''
                     })
                 })

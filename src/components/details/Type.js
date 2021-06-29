@@ -1,16 +1,20 @@
 import {useState, useEffect} from 'react';
 import './details.scss';
+import {
+    useFormDetails, 
+} from '../../service/PokemonContext';
 
 export default function Type({types}) {
     const [loading, setLoading] = useState(true)
-    
+    const pokemonForm = useFormDetails();
+
     useEffect(() => {
-        if(types) {
+        if(pokemonForm || types) {
             setLoading(false)
         }
-    }, [types])
+    }, [pokemonForm, types])
 
-
+    const pokemonType = types ?? pokemonForm.details.types;
 
     if(loading) {
         return (
@@ -20,7 +24,7 @@ export default function Type({types}) {
 
     return (
         <div className="type">
-            {types.map((type, i) => (
+            {pokemonType.map((type, i) => (
                 <p 
                     key={type.type.name}
                     className={type.type.name}>

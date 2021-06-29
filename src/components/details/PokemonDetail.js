@@ -382,7 +382,7 @@ export default function PokemonDetails({P}) {
 
     return (
         <div
-            className="pokemon-details">
+            className="pokemon-details glass">
             <button onClick={() => updatePokemon('reset')}>Back</button>
             <p className="">{pokemon.id}</p>
             <p className="name">{upperCase(pokemon.species.name)}</p> 

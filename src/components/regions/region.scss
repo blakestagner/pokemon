@@ -49,16 +49,21 @@ $pk-red: #E3350D;
     height: 215px;
     padding: .5rem;
     border-radius: .5rem;
-    background: #fff;
     margin: 0 5px;
     margin: .5rem;
-    box-shadow: $shadow-lg;
     position: relative;
     cursor: pointer;
 }
+.glass {
+    background: rgba( 255, 255, 255, 0.20 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border: 2px solid rgba( 255, 255, 255, 0.18 );
+}
 .basic-img {
-    height: 50%;
-    width: auto;
+    height: auto;
+    width: 100%;
     background: #F2F2F2;
     border-radius: .5rem;
 }

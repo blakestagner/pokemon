@@ -24,7 +24,7 @@ $pk-red: #E3350D;
 $helper: #404040;
 
 $shadow-lg: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-$shadow-md: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+$shadow-md: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
 
 
 
@@ -267,11 +267,12 @@ figure.evolution-2 {
 }
 .details-image-container {
     max-width: 500px;
-    margin: 1em 1em 1em auto;
+    margin: 1em auto;
     align-items: center;
     justify-content: center;
     display: flex;
     flex-direction: column;
+    border-radius: 1em;
 }
 .details-image-container > .detail-img {
     height: 250px;
@@ -280,12 +281,37 @@ figure.evolution-2 {
 } 
 .details-image-container ul {
     display: flex;
-    margin: 1em 0 0;
+    margin: 0 .5em;
+    justify-content: center;
+    border-radius: .5em;
+}
+.details-image-container ul li {
+    min-width: 60px;
+    margin: 0;
+}
+.details-image-container ul li:first-child {
+    padding-left: 0px;
+}
+.details-image-container ul li:last-child {
+    padding-right: 0px;
 }
 .details-image-container ul li > button {
     border: none;
-    box-shadow: $shadow-md;
-    border-radius: 1em;
+    color: #404040;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    font-size: 1em;
+    padding: 0.5em;
+    border-radius: .5em;
+}
+.details-image-container ul li.active {
+    margin: -2px;
+}
+.details-image-container ul li.active > button {
+    border: solid 2px #fff;
+    background-color: #fff;
+    color: #000;
 }
 .abilities > ul li p:nth-child(2) {
     color: $helper;
@@ -294,14 +320,13 @@ figure.evolution-2 {
     font-size: .9em;
 }
 //image tabs
-.varients-tab {
-    background-color: $pk-red;
-    border-radius: 1em;
-    box-shadow: $shadow-md;
-    
-}
 .varients-tab > li {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.overflow-y {
+    max-width: 500px;
+    overflow-x: scroll;
+    display: -webkit-box !important;
 }

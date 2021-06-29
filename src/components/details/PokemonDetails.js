@@ -1,12 +1,12 @@
 import {useState, useEffect} from 'react';
 import './details.scss';
 import PokemonImage from './PokemonImage';
-import Type from '../details/Type';
 import Stats from '../details/Stats';
 import Abilities from '../details/Abilities';
 import EvolutionChart from '../details/EvolutionChart';
 import Training from './Training';
-import {upperCase, genera, pokemonData} from '../Helper';
+import BasicInfo from './BasicInfo';
+import {upperCase, pokemonData} from '../Helper';
 import {
         usePokemon, 
         usePokemonUpdate, 
@@ -26,10 +26,6 @@ export default function PokemonDetails({P}) {
     const switchForm = useSwitchForms();
     const formDetails = useFormDetails()
     const pokemonForms = useForms();
-    const weightHeight = (num) => {
-        return Math.round((num * 0.1) * 10 ) / 10;
-    }
-
 
     useEffect(() => {
         pokemonData(pokemon.species.url)
@@ -350,6 +346,7 @@ export default function PokemonDetails({P}) {
         }
     }, [allForms])
 
+    
     useEffect(() => {
         pokemonForms && switchForm(0, 'normal', 0)
     }, [pokemonForms])
@@ -371,13 +368,7 @@ export default function PokemonDetails({P}) {
             <p className="">{pokemon.id}</p>
             <p className="name">{upperCase(pokemon.species.name)}</p> 
             <PokemonImage />
-            <div className="basic-info">
-                <p id=""></p>
-                <p id="species"><span>Species: </span>{genera(pokemon.genera)}</p>
-                <p id="weight"><span>Weight: </span>{weightHeight(pokemon.weight)} kg</p>
-                <p id="height"><span>Height: </span>{weightHeight(pokemon.height)} m</p>
-                <Type types={formDetails.details.types}/>
-            </div>
+            <BasicInfo />
             <div className="flex-container">
                 <Stats />
                 <Abilities />

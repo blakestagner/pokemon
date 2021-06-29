@@ -10,7 +10,7 @@ export default function PokemonImage() {
     const [varieties, setVarieties] = useState(false);
     const [image, setImage] = useState(null);
     const [imagePosition, setImagePosition] = useState(null);
-    const [pokemonKey, setPokemonKey] = useState('normal');
+    const [pokemonKey, setPokemonKey] = useState(['normal']);
     const [pokemonIndex, setPokemonIndex] = useState(0);
     const getForms = useForms();
     const pokemon = usePokemon();
@@ -22,6 +22,7 @@ export default function PokemonImage() {
             setVarieties(getForms)
             setImagePosition(0)
             setImage(getForms[0].normal)
+            console.log()
         }
     }, [getForms])
 
@@ -43,14 +44,19 @@ export default function PokemonImage() {
             setForm(objectIndex, objectKey[0], 0)
         }
         return (
-            <ul className="varients-tab">
+            <ul className="varients-tab glass">
                 {
                 varieties.map((obj, i) => (
-                    <li key={`${obj.type}-${i}`}>
+                    <li 
+                        className={
+                            Object.keys(obj)[0] === pokemonKey[0] 
+                                ? 'active' : ''
+                        }
+                        key={`${Object.keys(obj)[0]}-${i}`}>
                         <button 
                             onClick={() => handleClick(obj)}>
                             {Object.keys(obj)}
-                        </button> 
+                        </button>
                     </li>
                 ))}
             </ul>
@@ -68,11 +74,15 @@ export default function PokemonImage() {
         }
 
         return (
-            <ul>
+            <ul 
+                className={image.length > 1 ? 'glass overflow-y' : ''}>
             {image.map((obj, i) => (
                 image.length > 1 
                     ?
                         <li
+                            className={
+                                image.indexOf(obj) === imagePosition 
+                                    ? 'active' : ''}
                             key={i}>
                             <button 
                                 onClick={() => handleClick(obj)}>
@@ -95,7 +105,9 @@ export default function PokemonImage() {
 
     return (
         <div className="details-image-container">
-            {formsTab()}
+            {getForms.length > 1 
+                ? formsTab() : getForms[0].normal.length > 1
+                    ? formsTab() : '' }
             <img
                 alt={pokemon.id}
                 className="detail-img" 

@@ -62,7 +62,7 @@ export default function PokemonBasic({P, pokemonUrl}) {
         <>
         <div
             onClick={handleClick} 
-            className="pokemon-basic">
+            className="pokemon-basic glass">
             <p className="pk-number">{pokemon.id}</p> 
             <img
                 alt={pokemon.species.name}
