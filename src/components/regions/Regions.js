@@ -28,10 +28,22 @@ export default function Regions({P, url}) {
     useEffect(() => {
         const abortController = new AbortController();
         if(region) {
-            fetch(region.main_generation.url)
+            let dexUrl;
+            if(region.main_generation) {
+                dexUrl = region.main_generation.url
+            } else {
+                dexUrl = region.pokedexes[0].url
+            }
+            fetch(dexUrl)
             .then(response => response.json())
             .then((jsonData) => {
-                setPokemonList(jsonData.pokemon_species)
+                let speciesList;
+                if(region.main_generation) {
+                    speciesList = jsonData.pokemon_species
+                } else {
+                    speciesList = jsonData.pokemon_entries
+                }
+                setPokemonList(speciesList)
             })
             .catch((error) => {
                 console.error(error)
@@ -45,12 +57,22 @@ export default function Regions({P, url}) {
     useEffect(()=> {
         if(pokemonList !== null) {
             var splitUrl = 'https://pokeapi.co/api/v2/pokemon-species/';
-            pokemonList.sort(
-                (a, b) => 
-                parseInt(a.url.split(splitUrl)[1]) 
-                > 
-                parseInt(b.url.split(splitUrl)[1])
-                ? +1 : -1)
+            if (pokemonList[0].name) {
+                pokemonList.sort(
+                    (a, b) => 
+                    parseInt(a.url.split(splitUrl)[1]) 
+                    > 
+                    parseInt(b.url.split(splitUrl)[1])
+                    ? +1 : -1)
+            } else {
+                pokemonList.sort(
+                    (a, b) => 
+                    parseInt(a.pokemon_species.url.split(splitUrl)[1]) 
+                    > 
+                    parseInt(b.pokemon_species.url.split(splitUrl)[1])
+                    ? +1 : -1)
+            }
+           
             setLoading(false)
         }
     }, [pokemonList])
@@ -67,14 +89,23 @@ export default function Regions({P, url}) {
         <div className="dex-section">
             <h2>{region.name.charAt(0).toUpperCase() + region.name.slice(1)}</h2>
                 <div className={!isPokemon ? 'dex-list' : 'details'}>
-                {!isPokemon && pokemonList.map((obj, i) => (
-                    <PokemonBasic
-                        P={P}
-                        pokemonId={obj.id}
-                        pokemonUrl={obj.url}
-                        key={obj.name}
+                {!isPokemon && pokemonList.map((obj, i) => {
+                    let objCopy = obj;
+                    if (obj.name) {
+                        objCopy = obj;
+                    } else {
+                        objCopy = obj.pokemon_species;
+                    }
+                    return (
+                        <PokemonBasic
+                            P={P}
+                            pokemonId={objCopy.id}
+                            pokemonUrl={objCopy.url}
+                            key={objCopy.name}
                         />
-                ))}
+                    )
+                    
+                })}
                 {isPokemon &&
                     <PokemonDetails
                         P={P}

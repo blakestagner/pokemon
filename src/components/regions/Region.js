@@ -53,15 +53,13 @@ export default function Region() {
             ))
         )
     }
+
     useEffect(()=> {
         if(region !== null) {
             setLoading(false)
         }
 
     }, [region])
-
-
-
 
     if (loading) {
         return (
@@ -79,7 +77,8 @@ export default function Region() {
             {region.filter(obj => obj.name === currentRegion).map((obj, i) => (
                 <Regions
                     key={obj.name}
-                    url={obj.url}
+                    regionName={obj.name}
+                    url={`https://pokeapi.co/api/v2/region/${obj.name}`}
                     P={P} 
                     />
             ))}
