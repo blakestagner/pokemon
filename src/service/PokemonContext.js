@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect, useContext } from 'react';
+import { useState, createContext, useContext } from 'react';
 //import {pokemonData, pokemonData2} from '../components/Helper';
 
 
